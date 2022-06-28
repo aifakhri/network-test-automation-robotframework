@@ -1,0 +1,180 @@
+interfaces:
+  mgmt: &management
+    intName: management1
+    ipv4Addr: "172.16.1.23"
+    ipv4Subnet: "24"
+    macAddr: 000c.29a8.8e38
+  ethernets:
+    et1:
+      intName: ethernet1
+      intType: routed
+      ipv4Addr: "10.1.1.5"
+      ipv4Subnet: "31"
+      macAddr: 000c.29bd.92db
+      switchMode: null
+      vlanId: null
+    et2:
+      intName: ethernet2
+      intType: routed
+      ipv4Addr: "10.1.1.100"
+      ipv4Subnet: "31"
+      macAddr: 000c.29bd.92db
+      switchMode: null
+      vlanId: null
+    et3:
+      intName: ethernet3
+      intType: portChannel
+      ipv4Addr: null
+      macAddr: 000c.29a8.8e56
+      switchMode: null
+      vlanId: null
+    et4:
+      intName: ethernet4
+      intType: portChannel
+      ipv4Addr: null
+      macAddr: 000c.29a8.8e60
+      switchMode: null
+      vlanId: null
+    et5:
+      intName: ethernet5
+      intType: switchport
+      ipv4Addr: null
+      ipv4Subnet: null
+      macAddr: 000c.29a8.8e6a
+      switchMode: trunk
+      vlanId:
+        - "100"
+        - "200"
+  portChannels:
+    po1: &mlagPeerLink
+      intName: port-Channel1
+      intType: switchport
+      ipv4Addr: null
+      ipv4Subnet: null
+      macAddr: 000c.29a8.8e56
+      switchMode: trunk
+      vlanId:
+        - "4094"
+        - "4093"
+    po100: &mlagMember100
+      intName: port-Channel100
+      intType: switchport
+      ipv4Addr: null
+      ipv4Subnet: null
+      macAddr: 000c.29a8.8e6a
+      switchMode: trunk
+      vlanId:
+        - "100"
+        - "200"
+  loopbacks:
+    lo0: &loopback0
+      intName: loopback0
+      ipv4Addr: "10.10.110.2"
+      ipv4Subnet: "32"
+      secondary: &routerId
+        ipv4Addr: "10.10.110.22"
+        ipv4Subnet: "32"
+  vxlans:
+    "1":
+      name: vxlan1
+      source: *loopback0
+      udpPort: "4789"
+vlans:
+  "100": &vlan100
+    vlanId: "100"
+    svi: 
+      intName: null
+      ipv4Addr: null
+      macAddr: null
+  "200": &vlan200
+    vlanId: "200"
+    svi:
+      intName: vlan 200
+      ipv4Addr: null
+      ipv4Subnet: null
+      macAddr: 000c.29bd.92db
+  "4093":
+    vlanId: "4093"
+    svi:
+      intName: vlan 4093
+      ipv4Addr: "10.10.253.1"
+      ipv4Subnet: "30"
+      macAddr: 000c.29bd.92db
+  "4094": &mlagPeer
+    vlanId: "4094"
+    svi:
+      intName: vlan 4094
+      ipv4Addr: "10.10.254.1"
+      ipv4Subnet: "30"
+      macAddr: 000c.29bd.92db   
+virtulRouter:
+  global:
+    macAddr: 222a.aaaa.aa.aa
+  vlan:
+    vlanId: "200"
+    ipv4Addr: "10.22.0.254"
+    ipv4Subnet: "24"
+routing:
+  bgp:
+    routerId: *routerId
+    afiIpv4:
+      neighbors:
+        peer01:
+          address: "10.1.1.4"
+          remoteAs: "65001"
+          type: ebgp
+        peer02:
+          address: "10.1.1.10"
+          remoteAs: "65002"
+          type: ebgp
+        peer03: &evpnPeer
+          address: "10.10.110.1"
+          remoteAs: "65101"
+          type: evpn
+        peer04:
+          address: "10.10.253.2"
+          remoteAs: "65102"
+          type: ibgp
+    afiEvpn:
+      neighbors: *evpnPeer
+    vlans:
+      vlan100: &bridge01
+        vlan: *vlan100
+        rd: 10.21.0.2:1100
+        rt:
+          import: 65101:1100
+          export: 65102:1100
+      vlan200: &irb01
+        vlan: *vlan200
+        rd: 10.22.0.2:1100
+        rt:
+          import: 65101:1100
+          export: 65102:1100
+vni:
+  "1100":
+    vniId: 1100
+    localVtep: *loopback0
+    remoteVtep: *evpnPeer
+    mappedVlan: *vlan100
+    serviceType: bridged
+    evpn: *bridge01
+  "1200":
+    vniId: 1200
+    localVtep: *loopback0
+    remoteVtep: *evpnPeer
+    mappedVlan: *vlan200
+    serviceType: irb
+    evpn: *irb01
+mlag:
+  domainId: MLAG_POD2
+  mlagPeer: *mlagPeer
+  peerLink: *mlagPeerLink
+  member:
+    - *mlagMember100
+vrf:
+  management:
+    vrfName: management
+    intName: *management
+  customer02:
+    vrfName: CUSTOMER02
+    intName: *vlan200
