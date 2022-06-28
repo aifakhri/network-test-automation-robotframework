@@ -1,0 +1,94 @@
+interfaces:
+  ethernets:
+    ethernet1:
+      intType: routed
+      ipv4Addr: "10.1.1.1"
+      ipv4Subnet: "31"
+      macAddr:
+      vlanId:
+      switchMode:
+    ethernet2:
+      intType: routed
+      ipv4Addr: "10.1.1.7"
+      ipv4Subnet: "31"
+      macAddr:
+      vlanId: null
+      switchMode: null
+    ethernet3:
+      intType: switchport
+      ipv4Addr: null
+      macAddr:
+      vlanId: 
+        - 100
+        - 200
+      switchMode: trunk
+  portChannels:
+  loopbacks:
+    loopback0: &loopback0
+      name: loopback0
+      ipv4Addr: 10.10.110.1
+      ipv4Subnet: 32
+      secondary:
+        ipv4Addr: 10.10.110.11
+        ipv4Subnet: 32
+  vxlans:
+    vxlan1:
+      name: vxlan1
+      source: *loopback0
+      udpPort: 4789
+vlans:
+  vl100: &vlan100
+    vlanId: 100
+    svi: 
+      interface: null
+      ipv4Addr: null
+      macAddr: null
+  vl220: &vlan220
+    vlanId: 220
+    svi:
+      interface: vlan 220
+      ipv4Addr: null
+      macAddr: null
+virtulRouter:
+  global:
+    ipv4Addr:
+    macAddr: 22:1a:aa:aa:aa:aa
+  vlan:
+    vlanId: 100
+    ipv4Addr: 10.22.0.254
+    ipv4Subnet: 24
+routing:
+  static: null
+  ospf: null
+  bgp:
+    routerId: *loopback0
+    afiIpv4:
+      neighbors:
+        peer01:
+          address: 10.1.1.1
+          remoteAs: 65001
+          type: ebgp
+        peer02:
+          address: 10.1.1.6
+          remoteAs: 65002
+          type: ebgp
+        peer03: &evpnPeer
+          address: 10.10.110.2
+          remoteAs: 65102
+          type: evpn
+    afiEvpn:
+      neighbors: *evpnPeer
+  multicast:
+vni:
+  vni1100:
+    vniId: 1100
+    localVtep: *loopback0
+    remoteVtep: *evpn
+    mappedVlan: *vlan100
+    underlay: BGP EVPN
+  vni1200:
+    vniId: 1100
+    localVtep: *loopback0
+    remoteVtep: *evpn
+    mappedVlan: *vlan220
+    underlay: BGP EVPN
