@@ -116,6 +116,7 @@ virtulRouter:
     ipv4Subnet: "24"
 routing:
   bgp:
+    localAs: "65102"
     routerId: *routerId
     afiIpv4:
       neighbors:

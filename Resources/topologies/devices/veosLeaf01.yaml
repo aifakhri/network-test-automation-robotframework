@@ -68,6 +68,7 @@ virtulRouter:
     ipv4Subnet: "24"
 routing:
   bgp:
+    locaAs: "65101"
     routerId: *loopback0
     afiIpv4:
       neighbors:
