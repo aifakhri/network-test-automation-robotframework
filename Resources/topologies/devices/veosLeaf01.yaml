@@ -4,20 +4,20 @@ interfaces:
       intType: routed
       ipv4Addr: "10.1.1.1"
       ipv4Subnet: "31"
-      macAddr:
-      vlanId:
-      switchMode:
+      macAddr: 000c.2942.dfd9
+      vlanId: null
+      switchMode: null
     ethernet2:
       intType: routed
       ipv4Addr: "10.1.1.7"
       ipv4Subnet: "31"
-      macAddr:
+      macAddr: 000c.2942.dfd9
       vlanId: null
       switchMode: null
     ethernet3:
       intType: switchport
       ipv4Addr: null
-      macAddr:
+      macAddr: 000c.29ed.ce8d
       vlanId: 
         - 100
         - 200
@@ -51,8 +51,8 @@ vlans:
       macAddr: null
 virtulRouter:
   global:
-    ipv4Addr:
-    macAddr: 22:1a:aa:aa:aa:aa
+    ipv4Addr: null
+    macAddr: 22:0a:aa:aa:aa:aa
   vlan:
     vlanId: 100
     ipv4Addr: 10.22.0.254
@@ -78,7 +78,6 @@ routing:
           type: evpn
     afiEvpn:
       neighbors: *evpnPeer
-  multicast:
 vni:
   vni1100:
     vniId: 1100
