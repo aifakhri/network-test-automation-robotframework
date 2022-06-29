@@ -2,9 +2,9 @@ from netmiko import ConnectHandler
 
 
 
-def connection():
+def connection(ipAddr):
     devices = {
-        "host": "172.16.1.21",
+        "host": f"{ipAddr}",
         "username": "danbo",
         "password": "danbo",
         "device_type": "arista_eos"
