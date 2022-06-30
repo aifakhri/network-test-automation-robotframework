@@ -1,10 +1,9 @@
 from netmiko import ConnectHandler
 
 
-
-def connection(ipAddr):
+def connection(mgmtIpAddr):
     devices = {
-        "host": f"{ipAddr}",
+        "host": f"{mgmtIpAddr}",
         "username": "danbo",
         "password": "danbo",
         "device_type": "arista_eos"
@@ -14,3 +13,6 @@ def connection(ipAddr):
 
 def close_connect(connection):
     return connection.disconnect()
+
+if __name__ == "__main__":
+    pass
