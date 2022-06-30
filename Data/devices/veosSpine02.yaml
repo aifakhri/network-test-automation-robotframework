@@ -1,0 +1,58 @@
+interfaces:
+  management:
+    intName: management1
+    ipv4Addr: "172.16.1.12"
+    ipv4Subnet: "24"
+    macAddr: 000c.297a.52ae
+  ethernets:
+    et1:
+      intName: ethernet1
+      intType: routed
+      ipv4Addr: "10.1.1.6"
+      ipv4Subnet: "31"
+      macAddr: 000c.292f.8c13
+      vlanId: null
+      switchMode: null
+    et2:
+      intName: ethernet2
+      intType: routed
+      ipv4Addr: "10.1.1.8"
+      ipv4Subnet: "31"
+      macAddr: 000c.292f.8c13
+      vlanId: null
+      switchMode: null
+    et3:
+      intName: ethernet3
+      intType: routed
+      ipv4Addr: "10.1.1.10"
+      ipv4Subnet: "31"
+      macAddr: 000c.292f.8c13
+      switchMode: null
+      vlanId: null
+  portChannels:
+  loopbacks:
+    lo0:
+      intName: loopback0
+      ipv4Addr: "10.10.100.2"
+      ipv4Subnet: "32"
+      secondary: null
+  vxlans: null
+vlans: null
+routing:
+  bgp:
+    localAs: "65002"
+    routerId: "10.10.100.2"
+    neighbors:
+      - address: "10.1.1.7"
+        remoteAs: "65101"
+        type: ebgp
+      - address: "10.1.1.9"
+        remoteAs: "65102"
+        type: ebgp
+      - address: "10.1.1.11"
+        remoteAs: "65102"
+        type: ebgp
+vrf:
+  management:
+    name: management
+    intName: "management1"
