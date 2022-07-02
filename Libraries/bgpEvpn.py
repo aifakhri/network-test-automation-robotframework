@@ -25,8 +25,9 @@ def bgp_evpn_neighbor_caps(connection, peerIpv4):
     return bgp_caps
 
 def bgp_evpn_instance(connection, vlanId):
-    responses = connection.send_command(f"show bgp evpn instance")
-    instances = responses['bgpEvpnInstances'][vlanId]['vxlanEnabled']
+    responses = connection.send_command(f"show bgp evpn instance | json")
+    response = json.loads(responses)
+    instances = response['bgpEvpnInstances'][f"VLAN {vlanId}"]['vxlanEnabled']
     return instances
 
 
@@ -39,4 +40,4 @@ if __name__ == "__main__":
     }
 
     connection = ConnectHandler(**devices)
-    print(bgp_evpn_neighbor_caps(connection, "100"))
+    print(bgp_evpn_instance(connection, "100"))
