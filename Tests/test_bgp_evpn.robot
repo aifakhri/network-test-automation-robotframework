@@ -6,14 +6,14 @@ Test Setup         Open Connection to Device
 Test Teardown      Close Connection to Device
 
 *** Test Cases ***
-[Documentation] Simple documentation
+[Documentation] Step 1: Verify BGP EVPN Neighbor Status
     Verify BGP EVPN Neighbors State
 
-[Documentation] Simple documentation 2
+[Documentation] Step 2: Verify BGP EVPN Prefix Count
     Verify BGP EVPN Received Prefix Count
 
-[Documentation] Simple documentation 3
+[Documentation] Step 3: Verify BGP EVPN Neighbor Capabilities
     Verify BGP EVPN Neighbor Capabilities
 
-[Documentation] Simple documentation 4
+[Documentation] Step 4: Verify BGP EVPN Instance
     Verify BGP EVPN Instance Support Vxlan
