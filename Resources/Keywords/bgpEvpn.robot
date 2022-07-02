@@ -5,39 +5,43 @@ Variables         ../../Data/devices/${DEVICE}.yaml
 
 
 *** Variables ***
-@{bgpPeers}        @{routing.bgp.neighbors}
-@{vlans}           @{vlans}
+@{bgpPeers}          @{routing.bgp.neighbors}
+${bgpEvpnFeature}    ${features.bgpEvpn}
 
 *** Keywords ***
 Verify BGP EVPN Neighbors State
+    Pass Execution       ${bgpEvpnFeature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
-        IF      "${peer.type}" == "evpn"
-            ${evpnPeerState}     bgp evpn neighbor status    ${connection}    ${peer.address}
+        IF      "${peer}[type]" == "evpn"
+            ${evpnPeerState}     bgp evpn neighbor status    ${connection}    ${peer}[address]
             Should Be Equal      ${evpnPeerState}       Established
-            Log                  "BGP EVPN Peer ${evpnPeerState} state is ${evpnPeerState}"
         END
     END
 
 Verify BGP EVPN Received Prefix Count
+    Pass Execution       ${bgpEvpnFeature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
-        IF      "${peer.type}" == "evpn"
-            ${prefixCount}     bgp evpn prefix    ${connection}    ${peer.address}
+        IF      "${peer}[type]" == "evpn"
+            ${prefixCount}     bgp evpn prefix    ${connection}    ${peer}[address]
             Should Be True     ${prefixCount} > 0
-            Log                "BGP EVPN Peer Received Prefix Count is ${prefixCount}"
         END
     END
 
 Verify BGP EVPN Neighbor Capabilities
+    Pass Execution       ${bgpEvpnFeature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
-        IF      "${peer.type}" == "evpn"
-            ${capabilities}    bgp evpn neighbor caps    ${connection}    ${peer.address}
-            Should Be True    ${capabilities}[enabled]
-            Should Be True    ${capabilities}[received]
-            Should Be True    ${capabilities}[advertised]
-            Log                "BGP EVPN is enabled, and can received and advertised prefix"
+        IF      "${peer}[type]" == "evpn"
+            ${capabilities}    bgp evpn neighbor caps    ${connection}    ${peer}[address]
+            Should Be True     ${capabilities}[enabled]
+            Should Be True     ${capabilities}[received]
+            Should Be True     ${capabilities}[advertised]
         END
     END
     
     
-# Verify BGP EVPN Instance Support Vxlan
-#     ${evpnInstance}         Bgp Evpn Instance           ${connection}            
+Verify BGP EVPN Instance Support Vxlan
+    Pass Execution       ${bgpEvpnFeature} == ${false}
+    FOR     ${vlan}      IN      @{vlans}
+        ${vxlanInstance}      Bgp Evpn Instance    ${connection}    ${vlan}[vlanId]    
+        Should Be True        ${vxlanInstance}
+    END            
