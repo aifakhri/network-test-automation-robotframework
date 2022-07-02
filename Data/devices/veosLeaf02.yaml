@@ -1,3 +1,8 @@
+features:
+  bgp: True
+  bgpEvpn: True
+  vxlan: True
+  mlag: True
 interfaces:
   management:
     intName: management1
@@ -80,28 +85,28 @@ interfaces:
       source: loopback0
       udpPort: "4789"
 vlans:
-  "100":
-    vlanId: "100"
+  - vlanId: "100"
+    instance: vxlan
     svi: 
       intName: null
       ipv4Addr: null
       macAddr: null
-  "200":
-    vlanId: "200"
+  - vlanId: "200"
+    instance: vxlan
     svi:
       intName: vlan 200
       ipv4Addr: null
       ipv4Subnet: null
       macAddr: 000c.29f9.387b
-  "4093":
-    vlanId: "4093"
+  - vlanId: "4093"
+    instance: ibgp
     svi:
       intName: vlan 4093
       ipv4Addr: "10.10.253.1"
       ipv4Subnet: "30"
       macAddr: 000c.29f9.387b
-  "4094":
-    vlanId: "4094"
+  - vlanId: "4094"
+    instance: mlag
     svi:
       intName: vlan 4094
       ipv4Addr: "10.10.254.1"
@@ -132,27 +137,23 @@ routing:
         remoteAs: "65103"
         type: ibgp
     vlans:
-      "100":
-        vlanId: "100"
+      - vlanId: "100"
         rd: 10.21.0.2:1100
         rt:
           import: 65101:1100
           export: 65102:1100
-      "200":
-        vlanId: "200"
+      - vlanId: "200"
         rd: 10.22.0.2:1200
         rt:
           import: 65101:1200
           export: 65102:1200
 vni:
-  "1100":
-    vniId: "1100"
+  - vniId: "1100"
     localVtep: "10.10.110.2"
     remoteVtep: "10.10.110.1"
     mappedVlan: "100"
     serviceType: bridged
-  "1200":
-    vniId: "1200"
+  - vniId: "1200"
     localVtep: "10.10.110.2"
     remoteVtep: "10.10.110.1"
     mappedVlan: "200"

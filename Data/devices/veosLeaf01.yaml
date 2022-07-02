@@ -1,3 +1,8 @@
+features:
+  bgp: True
+  bgpEvpn: True
+  vxlan: True
+  mlag: True
 interfaces:
   management:
     intName: management1
@@ -46,14 +51,14 @@ interfaces:
       source: loopback0
       udpPort: "4789"
 vlans:
-  "100":
-    vlanId: "100"
+  - vlanId: "100"
+    instance: vxlan
     svi: 
       intName: null
       ipv4Addr: null
       macAddr: null
-  "220":
-    vlanId: "220"
+  - vlanId: "220"
+    instance: vxlan
     svi:
       intName: vlan 220
       ipv4Addr: null
@@ -77,31 +82,27 @@ routing:
       - address: "10.1.1.6"
         remoteAs: "65002"
         type: ebgp
-      - address: "10.10.110.1"
+      - address: "10.10.110.2"
         remoteAs: "65101"
         type: evpn
     vlans:
-      "100":
-        vlanId: "100"
+      - vlanId: "100"
         rd: 10.21.0.1:1100
         rt:
           import: 65102:1100
           export: 65101:1100
-      "220":
-        vlanId: "220"
+      - vlanId: "220"
         rd: 10.22.0.1:1200
         rt:
           import: 65102:1200
           export: 65101:1200
 vni:
-  "1100":
-    vniId: "1100"
+  - vniId: "1100"
     localVtep: loopback0
     remoteVtep: "10.10.110.2"
     mappedVlan: "100"
     serviceType: bridged
-  "1200":
-    vniId: "1200"
+  - vniId: "1200"
     localVtep: "10.10.110.1"
     remoteVtep: "10.10.110.2"
     mappedVlan: "220"
