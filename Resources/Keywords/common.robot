@@ -13,6 +13,3 @@ Open Connection to Device
 
 Close Connection to Device
     close_connect                 ${connection}
-
-# Getting device information
-#     Log to Console      ${managementIp}
