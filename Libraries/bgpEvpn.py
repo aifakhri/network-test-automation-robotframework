@@ -1,6 +1,4 @@
 import json
-from sys import prefix
-from netmiko import ConnectHandler
 
 
 
@@ -32,12 +30,4 @@ def bgp_evpn_instance(connection, vlanId):
 
 
 if __name__ == "__main__":
-    devices = {
-        "host": "172.16.1.21",
-        "username": "danbo",
-        "password": "danbo",
-        "device_type": "arista_eos"
-    }
-
-    connection = ConnectHandler(**devices)
-    print(bgp_evpn_instance(connection, "100"))
+    pass
