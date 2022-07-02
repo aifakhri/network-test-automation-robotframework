@@ -162,8 +162,8 @@ mlag:
   domainId: MLAG_POD2
   mlagPeer: "10.10.254.2"
   peerLink: "Port-Channel1"
-  member:
-    - "Port-Channel100"
+  memberId:
+    - "100"
 vrf:
   management:
     name: management
