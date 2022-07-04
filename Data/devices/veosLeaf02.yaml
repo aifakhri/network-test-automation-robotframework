@@ -147,7 +147,7 @@ routing:
         rt:
           import: 65101:1200
           export: 65102:1200
-vni:
+vnis:
   - vniId: "1100"
     localVtep: "10.10.110.2"
     remoteVtep: "10.10.110.1"

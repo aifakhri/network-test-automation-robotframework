@@ -47,7 +47,7 @@ interfaces:
         ipv4Subnet: "32"
   vxlans:
     "1":
-      intName: vxlan1
+      intName: Vxlan1
       source: loopback0
       udpPort: "4789"
 vlans:
@@ -96,7 +96,7 @@ routing:
         rt:
           import: 65102:1200
           export: 65101:1200
-vni:
+vnis:
   - vniId: "1100"
     localVtep: loopback0
     remoteVtep: "10.10.110.2"
