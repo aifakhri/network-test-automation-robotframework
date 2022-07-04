@@ -2,26 +2,24 @@ import json
 
 
 
-def vxlan_status(connection, vxlan_interface_number):
-    responses =  connection.send_command(f"show interface vxlan{vxlan_interface_number} | json")
+
+def vxlan_status(connection, vxlanInt):
+    responses =  connection.send_command(f"show interface {vxlanInt} | json")
     response = json.loads(responses)
-    vxlan_status = response['interfaces']['Vxlan1']['lineProtocolStatus']
-    # vxlan_status return string 'up'
+    vxlan_status = response['interfaces'][f'{vxlanInt}']['lineProtocolStatus']
     return vxlan_status
 
-def vxlan_vni_mapping(connection, vxlan_interface_number):
-    responses =  connection.send_command(f"show interface vxlan{vxlan_interface_number} | json")
+def vxlan_vni_mapping(connection, vxlanInt, vlanId):
+    responses =  connection.send_command(f"show interface {vxlanInt} | json")
     response = json.loads(responses)
-    mapping = response['interfaces']['Vxlan1']['vlanToVniMap']['100']['vni']
-    # mapping will return in integer, the 100 is the vlan it should be a variable
-    # because there would be various VXLAN VLAN Service
+    mapping = response['interfaces'][f'{vxlanInt}']['vlanToVniMap'][f'{vlanId}']['vni']
     return mapping
 
-def vxlan_control_plane(connection):
-    responses = connection.send_command(f"show vxlan control-plane")
+def vxlan_control_plane(connection, vlanId):
+    responses = connection.send_command(f"show vxlan control-plane | json")
     response = json.loads(responses)
-    ## Still unsure what to return
-    return response
+    control_plane = list(response["vlans"][f"{vlanId}"]['controlPlanes'].items())
+    return control_plane[0][0]
 
 def vxlan_mac_address(connection, remote_server_vlan_macaddress):
     responses = connection.send_command(f"show mac address table address \
@@ -46,3 +44,16 @@ def vxlan_vrf_arp_table(connection, vrf_name_irb_service):
     # the clue here is to match the ip address or use directly the mac address.
     mac_address = responses['ipV4Neighbors'][0]['hwAddress']
     return mac_address
+
+if __name__ == "__main__":
+    pass
+    # devices = {
+    #     "host": "172.16.1.22",
+    #     "username": "danbo",
+    #     "password": "danbo",
+    #     "device_type": "arista_eos"
+    # }
+    # connection = ConnectHandler(**devices)
+    # test = vxlan_control_plane(connection, "100")
+    # print(test)
+    
