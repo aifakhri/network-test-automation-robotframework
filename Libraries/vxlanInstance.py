@@ -56,27 +56,3 @@ def _transform_mac_address(macAddr):
             oui_list.append(mac_temp)
             mac_temp = ""
     return ".".join(oui_list)
-
-if __name__ == "__main__":
-    devices = {
-        "host": "127.0.0.1",
-        "port": "2221",
-        "username": "danbo",
-        "password": "danbo",
-        "device_type": "arista_eos"
-    }
-    mac = "08:00:27:74:ae:8b"
-    rd = "10.21.0.0:65102"
-    vni = "1100"
-    vlan = "100"
-    connection = ConnectHandler(**devices)
-    # test = vxlan_evpn_service(connection, "1200", "10.22.0.2:1200", mac)
-    
-    # test = vxlan_mac_address(connection, "100")
-    test = vxlan_evpn_service(connection, vni, rd, mac)
-    print(test)
-
-
-    # print(vxlan_mac_address(connection, "100"))
-    
-    

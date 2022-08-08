@@ -26,7 +26,3 @@ def bgp_evpn_instance(connection, vlanId):
     response = json.loads(responses)
     instances = response['bgpEvpnInstances'][f"VLAN {vlanId}"]['vxlanEnabled']
     return instances
-
-
-if __name__ == "__main__":
-    pass

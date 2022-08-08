@@ -13,7 +13,3 @@ def connection(ipv4Addr, port):
 
 def close_connection(connection):
     return connection.disconnect()
-
-
-if __name__ == "__main__":
-    pass

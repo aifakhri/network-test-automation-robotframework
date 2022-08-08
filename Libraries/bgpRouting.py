@@ -14,6 +14,3 @@ def bgp_routes(connection):
     response = json.loads(responses)
     bgp_routes = response["vrfs"]["default"]["bgpCounts"]["bgpExternal"]
     return bgp_routes
-
-if __name__ == "__main__":
-    pass
