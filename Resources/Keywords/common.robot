@@ -1,15 +1,17 @@
 *** Settings ***
 Documentation       Common Keyword
 Library             ../../Libraries/commonLib.py
-Variables           ../../Data/devices/${DEVICE}.yaml
+Variables           ../Variables/${DEVICE}.yaml
+
 
 *** Variables ***
-${managementIp}     ${interfaces.management.ipv4Addr}
+${managementIp}         ${virtualBox.vmManagement.hostIp}
+${port}                 ${virtualBox.vmManagement.hostPort}
 
 *** Keyword ***
 Open Connection to Device
-    ${connection}                 connection        ${managementIp}
-    Set Suite Variable            ${connection}
+    ${connect}                    connection     ${managementIp}     ${port}
+    Set Suite Variable            ${connect}
 
 Close Connection to Device
-    close_connect                 ${connection}
+    close_connection              ${connect}

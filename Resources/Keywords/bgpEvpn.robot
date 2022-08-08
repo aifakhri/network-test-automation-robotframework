@@ -1,16 +1,16 @@
 *** Settings ***
 Documentation     BGP Related Keyword
 Library           ../../Libraries/bgpEvpn.py
-Variables         ../../Data/devices/${DEVICE}.yaml
+Variables         ../Variables/${DEVICE}.yaml
 
 
 *** Variables ***
 @{bgpPeers}          @{routing.bgp.neighbors}
 ${bgpEvpnFeature}    ${features.bgpEvpn}
 
+
 *** Keywords ***
-Verify BGP EVPN Neighbors State
-    Pass Execution       ${bgpEvpnFeature} == ${false}
+BGP EVPN Neighbors State
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${evpnPeerState}     bgp evpn neighbor status    ${connection}    ${peer}[address]
@@ -18,8 +18,7 @@ Verify BGP EVPN Neighbors State
         END
     END
 
-Verify BGP EVPN Received Prefix Count
-    Pass Execution       ${bgpEvpnFeature} == ${false}
+BGP EVPN Received Prefix Count
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${prefixCount}     bgp evpn prefix    ${connection}    ${peer}[address]
@@ -27,8 +26,7 @@ Verify BGP EVPN Received Prefix Count
         END
     END
 
-Verify BGP EVPN Neighbor Capabilities
-    Pass Execution       ${bgpEvpnFeature} == ${false}
+BGP EVPN Neighbor Capabilities
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${capabilities}    bgp evpn neighbor caps    ${connection}    ${peer}[address]
@@ -39,8 +37,7 @@ Verify BGP EVPN Neighbor Capabilities
     END
     
     
-Verify BGP EVPN Instance Support Vxlan
-    Pass Execution       ${bgpEvpnFeature} == ${false}
+BGP EVPN Instance Support VXLAN
     FOR     ${vlan}      IN      @{vlans}
         ${vxlanInstance}      Bgp Evpn Instance    ${connection}    ${vlan}[vlanId]    
         Should Be True        ${vxlanInstance}
