@@ -7,7 +7,7 @@ Test Teardown      Close Connection to Device
 
 *** Test Cases ***
 [Documentation] Step 1: Verify BGP Neighbor State
-    Verify BGP Neighboring State
+    BGP Neighboring State
 
-[Documentation] Step 2: Verify BGP Routing in Routing Table
-    Verify BGP Prefix is in Routing Table
+[Documentation] Step 2: Verify BGP Routing Prefix
+    BGP Prefix Count in Routing Table
