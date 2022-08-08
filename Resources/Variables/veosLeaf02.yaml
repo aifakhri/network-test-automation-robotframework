@@ -1,0 +1,101 @@
+virtualBox:
+  vmType: arista_veos
+  vmManagement:
+    hostIp: "127.0.0.1"
+    hostPort: "2222"
+    guestIp: "10.0.2.15"
+    guestPort: "22"
+features:
+  bgp: True
+  bgpEvpn: True
+  vxlan: True
+interfaces:
+  management:
+    intName: management1
+    ipv4Addr: dhcp
+    ipv4Subnet: null
+  ethernets:
+    et1:
+      intName: ethernet1
+      intType: routed
+      ipv4Addr: "10.1.1.3"
+      ipv4Subnet: "31"
+      switchMode: null
+      vlanId: null
+    et2:
+      intName: ethernet2
+      intType: routed
+      ipv4Addr: "10.1.1.9"
+      ipv4Subnet: "31"
+      switchMode: null
+      vlanId: null
+    et3:
+      intName: ethernet5
+      intType: switchport
+      ipv4Addr: null
+      ipv4Subnet: null
+      switchMode: trunk
+      vlanId: all
+  loopbacks:
+    lo0:
+      intName: loopback0
+      ipv4Addr: "10.10.110.2"
+      ipv4Subnet: "32"
+vlans:
+  - vlanId: "100"
+    serviceType: "vxlan bridge"
+    svi: 
+      intName: null
+      ipv4Addr: null
+      ipv4Subnet: null
+      macAddr: null
+      ipv4VirtAddr: null
+  - vlanId: "200"
+    serviceType: "vxlan irb"
+    svi:
+      intName: "vlan 200"
+      ipv4Addr: null
+      ipv4Subnet: null
+      ipv4VirtAddr: "10.22.0.254"
+routing:
+  bgp:
+    localAs: "65102"
+    routerId: "10.10.110.2"
+    neighbors:
+      - address: "10.1.1.2"
+        remoteAs: "65001"
+        type: ebgp
+      - address: "10.1.1.6"
+        remoteAs: "65002"
+        type: ebgp
+      - address: "10.10.110.1"
+        remoteAs: "65101"
+        type: evpn
+    vlans:
+      - vlanId: "100"
+        rd: 10.21.0.0:65102
+        rt: 10.21.0.0:1100
+      - vlanId: "200"
+        rd: 10.22.0.0:65102
+        rt: 10.22.0.0:1200
+vxlans:
+  interface:
+    intName: Vxlan1
+    vtepInt: loopback0
+    vtepIp: "10.10.110.1"
+    controlPlane: EVPN
+  vnis:
+    - vniId: "1100"
+      mappedVlan: "100"
+      serviceType: bridged
+    - vniId: "1200"
+      mappedVlan: "220"
+      serviceType: irb
+vrf:
+  management:
+    vrfName: management
+    intName: management1
+  customers:
+    CUSTOMER02:
+      vrfName: CUSTOMER02
+      intName: "Vlan 220"

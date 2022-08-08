@@ -1,0 +1,47 @@
+virtualBox:
+  vmType: arista_veos
+  vmAccess:
+    hostIp: "127.0.0.1"
+    hostPort: "2211"
+    guestIp: "10.0.2.15"
+    guestPort: "22"
+features:
+  bgp: True
+  bgpEvpn: False
+  vxlan: False
+interfaces:
+  management:
+    intName: management1
+    ipv4Addr: dhcp
+    ipv4Subnet: null
+  ethernets:
+    et1:
+      intName: ethernet1
+      intType: routed
+      ipv4Addr: "10.1.1.0"
+      ipv4Subnet: "31"
+    et2:
+      intName: ethernet2
+      intType: routed
+      ipv4Addr: "10.1.1.2"
+      ipv4Subnet: "31"
+  loopbacks:
+    lo0:
+      intName: loopback0
+      ipv4Addr: "10.10.100.1"
+      ipv4Subnet: "32"
+routing:
+  bgp:
+    localAs: "65001"
+    routerId: "10.10.100.1"
+    neighbors:
+      - address: "10.1.1.1"
+        remoteAs: "65101"
+        type: ebgp
+      - address: "10.1.1.3"
+        remoteAs: "65102"
+        type: ebgp
+vrf:
+  management:
+    name: management
+    intName: "management1"
