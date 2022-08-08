@@ -2,7 +2,6 @@ import json
 
 
 
-
 def bgp_evpn_neighbor_status(connection, peerIpv4):
     responses = connection.send_command(f"show bgp evpn summary | json ")
     response = json.loads(responses)
