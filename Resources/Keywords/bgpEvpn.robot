@@ -6,11 +6,12 @@ Variables         ../Variables/${DEVICE}.yaml
 
 *** Variables ***
 @{bgpPeers}          @{routing.bgp.neighbors}
-${bgpEvpnFeature}    ${features.bgpEvpn}
+${feature}           ${features.bgpEvpn}
 
 
 *** Keywords ***
 BGP EVPN Neighbors State
+    Skip if    ${feature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${evpnPeerState}     bgp evpn neighbor status    ${connection}    ${peer}[address]
@@ -19,6 +20,7 @@ BGP EVPN Neighbors State
     END
 
 BGP EVPN Received Prefix Count
+    Skip if    ${feature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${prefixCount}     bgp evpn prefix    ${connection}    ${peer}[address]
@@ -27,6 +29,7 @@ BGP EVPN Received Prefix Count
     END
 
 BGP EVPN Neighbor Capabilities
+    Skip if    ${feature} == ${false}
     FOR     ${peer}      IN      @{bgpPeers}
         IF      "${peer}[type]" == "evpn"
             ${capabilities}    bgp evpn neighbor caps    ${connection}    ${peer}[address]
@@ -38,6 +41,7 @@ BGP EVPN Neighbor Capabilities
     
     
 BGP EVPN Instance Support VXLAN
+    Skip if    ${feature} == ${false}
     FOR     ${vlan}      IN      @{vlans}
         ${vxlanInstance}      Bgp Evpn Instance    ${connection}    ${vlan}[vlanId]    
         Should Be True        ${vxlanInstance}
