@@ -4,10 +4,14 @@ Library           ../../Libraries/vxlanInstance.py
 Variables         ../Variables/${DEVICE}.yaml
 
 
+*** Variables ***
+@{vnis}       @{vxlans}[vnis]
+
+
 *** Keyword ***
 VXLAN Bridge Mac Address Table
     FOR    ${expected}    IN    @{vnis}
-        IF    "${expected}[serviceType]" == "vxlan bridge"
+        IF    "${expected}[serviceType]" == "bridged"
             ${macAddr}     vxlan mac address    ${connection}    ${expected}[mappedVlan]    ${expected}[remote][mac]
             Should Be True      ${macAddr}
         END
@@ -15,8 +19,8 @@ VXLAN Bridge Mac Address Table
 
 VXLAN Bridged In EVPN Table
     FOR    ${expected}    IN    @{vnis}
-        IF    "${expected}[serviceType]" == "vxlan bridge"
-            ${macAddr}        vxlan evpn service    ${connection}    ${expected}[vni]    ${expected}[remote][rd]    ${expected}[remote][mac]
+        IF    "${expected}[serviceType]" == "bridged"
+            ${macAddr}        vxlan evpn service    ${connection}    ${expected}[vniId]    ${expected}[remote][rd]    ${expected}[remote][mac]
             Should Be True    ${macAddr}
         END
     END

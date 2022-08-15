@@ -5,13 +5,17 @@ Variables           ../Variables/${DEVICE}.yaml
 
 
 *** Variables ***
-${managementIp}         ${virtualBox.vmManagement.hostIp}
-${port}                 ${virtualBox.vmManagement.hostPort}
+${mgmtIp}         ${virtualBox.vmManagement.hostIp}
+${port}           ${virtualBox.vmManagement.hostPort}
+${user}           ${virtualBox.vmManagement.username}
+${passwd}         ${virtualBox.vmManagement.password}
+${devType}        ${virtualBox.vmType}
+
 
 *** Keyword ***
 Open Connection to Device
-    ${connect}                    connection     ${managementIp}     ${port}
-    Set Suite Variable            ${connect}
+    ${connection}                 open connection    ${mgmtIp}    ${port}    ${user}    ${passwd}    ${devType}
+    Set Suite Variable            ${connection}
 
 Close Connection to Device
-    close_connection              ${connect}
+    close_connection              ${connection}

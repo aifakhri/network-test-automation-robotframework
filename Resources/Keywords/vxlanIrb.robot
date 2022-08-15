@@ -5,9 +5,9 @@ Variables         ../Variables/${DEVICE}.yaml
 
 
 *** Variables ***
-${vxlanInt}          ${interfaces}[vxlans][1][intName]
+${vxlanInt}          ${vxlans}[interface][intName]
 ${customerVrf}       ${vrf}[customers][CUSTOMER02][vrfName]
-
+@{vnis}                @{vxlans}[vnis]
 
 *** Keyword ***
 VXLAN IRB Service Remote Mac Address

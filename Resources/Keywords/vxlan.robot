@@ -1,11 +1,12 @@
 *** Settings ***
 Documentation     Vxlan Related Keyword
 Library           ../../Libraries/vxlanInstance.py
-Variables         ../../Variables/${DEVICE}.yaml
+Variables         ../Variables/${DEVICE}.yaml
 
 
 *** Variables ***
-${vxlanInt}             ${interfaces}[vxlans][1][intName]
+${vxlanInt}         ${vxlans}[interface][intName]
+@{vnis}             @{vxlans}[vnis]  
 
 
 *** Keyword ***
@@ -16,5 +17,5 @@ VXLAN Interface Status
 Mapped VLAN to VNI
     FOR    ${expected}    IN    @{vnis}
         ${actualVni}        vxlan vni mapping    ${connection}    ${vxlanInt}   ${expected}[mappedVlan]
-        Should Be Equal     "${actualVni}"    "${expected}[vni]"
+        Should Be Equal     "${actualVni}"    "${expected}[vniId]"
     END

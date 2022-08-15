@@ -12,7 +12,7 @@ Variables         ../Variables/${DEVICE}.yaml
 BGP Neighboring State
     FOR     ${peer}     IN      @{bgpPeers}
         IF      "${peer.type}" == "ebgp"
-            ${peerState}        bgp status       ${connection}       ${peer.address}
+            ${peerState}        bgp status        ${connection}       ${peer.address}
             Should Be Equal     "${peerState}"    "Established"
         END
     END
