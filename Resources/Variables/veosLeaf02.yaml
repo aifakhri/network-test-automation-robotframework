@@ -91,7 +91,7 @@ vxlans:
       mappedVlan: "100"
       serviceType: bridged
     - vniId: "1200"
-      mappedVlan: "220"
+      mappedVlan: "200"
       serviceType: irb
 vrf:
   management:

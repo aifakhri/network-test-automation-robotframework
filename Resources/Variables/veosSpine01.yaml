@@ -32,6 +32,11 @@ interfaces:
       intName: loopback0
       ipv4Addr: "10.10.100.1"
       ipv4Subnet: "32"
+vlans: []
+vxlans:
+  interface:
+    intName: null
+  vnis: []
 routing:
   bgp:
     localAs: "65001"
