@@ -1,13 +1,13 @@
 from netmiko import ConnectHandler
 
 
-def connection(ipv4Addr, port):
+def open_connection(ipv4Addr, port, usernm, passwd, devType):
     devices = {
-        "host": f"{ipv4Addr}",
+        "host": ipv4Addr,
         "port": port,
-        "username": "danbo",
-        "password": "danbo",
-        "device_type": "arista_eos"
+        "username": usernm,
+        "password": passwd,
+        "device_type": devType
     }
     return ConnectHandler(**devices)
 
