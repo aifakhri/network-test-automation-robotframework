@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       This is BGP Test Cases
+Documentation      BGP Test Cases
 Resource            ../Resources/Keywords/common.robot
 Resource            ../Resources/Keywords/bgpRouting.robot
 Test Setup         Open Connection to Device

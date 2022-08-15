@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       Vxlan Test Cases
+Documentation      Vxlan Test Cases
 Resource            ../Resources/Keywords/common.robot
 Resource            ../Resources/Keywords/vxlan.robot
 Test Setup         Open Connection to Device

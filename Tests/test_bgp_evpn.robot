@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       BGP EVPN Test Cases
+Documentation      BGP EVPN Test Cases
 Resource            ../Resources/Keywords/common.robot
 Resource            ../Resources/Keywords/bgpEvpn.robot
 Test Setup         Open Connection to Device
