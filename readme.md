@@ -16,9 +16,9 @@ python program_runner.py
 python program_runner.py -d leaf 
 ```
 ```console
-python program_runner.py -d leaf 
+python program_runner.py -d spine 
 ```
-*Running Tests for One Device
+* Running Tests for One Device
 ```console
 python program_runner.py -d veosleaf01
 ```
